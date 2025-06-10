@@ -5,6 +5,7 @@ import Home from "./Home"
 import Error404 from "./Error404"
 import CrearProducto from "./CrearProducto"
 import Contacto from "./contacto";
+import DetalleProducto from './DetalleProducto';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
             <Route exact path="/*" element={<Error404/>}></Route>
             <Route exact path="/crearProducto" element={<CrearProducto/>}></Route>
             <Route path="/aboutUs" element={<Contacto />} ></Route>
+            <Route path="/producto/:id" element={<DetalleProducto />} />
         </Routes>
       <Footer/>
     </BrowserRouter>
@@ -23,4 +25,3 @@ function App() {
 }
 
 export default App
-
