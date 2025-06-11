@@ -7,7 +7,7 @@ import Error404 from "./Error404"
 import CrearProducto from "./CrearProducto"
 import Contacto from "./contacto";
 import DetalleProducto from './DetalleProducto';
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
 function App() {
 
   const [listaProductos, setListaProductos] = useState([]);

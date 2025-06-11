@@ -1,4 +1,5 @@
 import { Container } from 'react-bootstrap';
+
 const Footer = () => {
   return (
     <footer
@@ -9,10 +10,16 @@ const Footer = () => {
         textAlign: 'center',
         borderTop: '2px solid #00e0c0',
         fontSize: '0.9rem',
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        zIndex: 999,
       }}
     >
       <Container>
-      <strong style={{ color: '#00e0c0' }}> © 2025. Todos los derechos reservados.</strong>
+        <strong style={{ color: '#00e0c0' }}>
+          © 2025. Todos los derechos reservados.
+        </strong>
       </Container>
     </footer>
   );
