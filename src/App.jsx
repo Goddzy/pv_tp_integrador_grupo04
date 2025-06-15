@@ -7,6 +7,7 @@ import Error404 from "./Error404"
 import CrearProducto from "./CrearProducto"
 import Contacto from "./contacto";
 import DetalleProducto from './DetalleProducto';
+import Editar from './Editar';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             <Route exact path="/crearProducto" element={<CrearProducto setListaProductos={setListaProductos} listaProductos={listaProductos} idProducto={idProducto} setIdProducto={setIdProducto}/>}></Route>
             <Route path="/aboutUs" element={<Contacto />} ></Route>
             <Route path="/producto/:id" element={<DetalleProducto listaProductos={listaProductos} />} />
+            <Route path="/editar/:id" element={<Editar listaProductos={listaProductos} setListaProductos={setListaProductos}/>} />
         </Routes>
       <Footer/>
     </BrowserRouter>

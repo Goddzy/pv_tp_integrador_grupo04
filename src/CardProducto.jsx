@@ -44,12 +44,24 @@ const CardProducto = ({ producto }) => {
           >
             {producto.description}
           </Card.Text>
-          <div className="d-flex justify-content-between align-items-center mt-2">
-            <span className="fw-bold">${producto.price}</span>
-            <Button variant="primary" as={Link} to={`/producto/${producto.id}`}>
-              Ver más
-            </Button>
-          </div>
+            <div className="d-flex align-items-center mt-2">
+              <span className="fw-bold me-auto">${producto.price}</span>
+              <Button
+                variant="warning"
+                as={Link}
+                to={`/editar/${producto.id}`}
+                className="me-2"
+              >
+                Editar
+              </Button>
+              <Button
+                variant="primary"
+                as={Link}
+                to={`/producto/${producto.id}`}
+              >
+                Ver más
+              </Button>
+            </div>
         </Card.Body>
       </Card>
     </Col>
