@@ -1,14 +1,21 @@
 import { Container, Row } from 'react-bootstrap';
 import CardProducto from './CardProducto';
+import { useContext } from 'react';
+import { FavoritosContext } from './contexts/FavoritosContext';
 
-const Home = ({ listaProductos }) => {
+const Favoritos = ({ listaProductos }) => {
+  const { favoritos } = useContext(FavoritosContext);
+
+
+  const productosFavoritos = listaProductos.filter(producto => favoritos.includes(producto.id));
+
   return (
     <div style={{ backgroundColor: '#12121a', minHeight: '100vh', paddingBottom: '3rem' }}>
       <div
         style={{
           height: '70vh',
           backgroundImage:
-            'url(https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1500&q=80)',
+            'url(https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1500&q=80)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'brightness(0.6)',
@@ -27,17 +34,24 @@ const Home = ({ listaProductos }) => {
             textShadow: '0 0 5px #00e0c0',
           }}
         >
-          PRODUCTOS
+          FAVORITOS
         </h2>
         <hr style={{ borderColor: '#00e0c0', borderWidth: '2px', width: '80px' }} />
-        <Row className="mt-4">
-          {listaProductos.map((e) => (
-            <CardProducto key={e.id} producto={e} />
-          ))}
-        </Row>
+
+        {productosFavoritos.length > 0 ? (
+          <Row className="mt-4">
+            {productosFavoritos.map((e) => (
+              <CardProducto key={e.id} producto={e} />
+            ))}
+          </Row>
+        ) : (
+          <h5 className="mt-5 text-center" style={{ color: '#FFF' }}>
+            No tenés productos marcados como favoritos.
+          </h5>
+        )}
       </Container>
     </div>
   );
 };
 
-export default Home;
+export default Favoritos;

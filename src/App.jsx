@@ -8,6 +8,7 @@ import CrearProducto from "./CrearProducto"
 import Contacto from "./contacto";
 import DetalleProducto from './DetalleProducto';
 import Editar from './Editar';
+import Favoritos from './Favoritos'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 function App() {
 
@@ -19,17 +20,17 @@ function App() {
     .then(res => setListaProductos(res))
     .catch(err => console.log('Error al cargar los productos: ', err));
   },[])
-  console.log(listaProductos)
   return (
     <BrowserRouter>
       <Header/>
         <Routes>
             <Route exact path="/" element={<Home listaProductos={listaProductos}/>}></Route>
-            <Route exact path="/*" element={<Error404/>}></Route>
             <Route exact path="/crearProducto" element={<CrearProducto setListaProductos={setListaProductos} listaProductos={listaProductos} idProducto={idProducto} setIdProducto={setIdProducto}/>}></Route>
             <Route path="/aboutUs" element={<Contacto />} ></Route>
             <Route path="/producto/:id" element={<DetalleProducto listaProductos={listaProductos} />} />
+            <Route path="/favoritos" element={<Favoritos listaProductos={listaProductos}/>}></Route>
             <Route path="/editar/:id" element={<Editar listaProductos={listaProductos} setListaProductos={setListaProductos}/>} />
+            <Route exact path="/*" element={<Error404/>}></Route>
         </Routes>
       <Footer/>
     </BrowserRouter>
