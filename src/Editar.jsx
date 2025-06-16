@@ -1,18 +1,19 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 
-const Editar = ({ listaProductos , setListaProductos}) => {
+const Editar = ({ listaProductos, setListaProductos }) => {
   const { id } = useParams();
-  const navigate= useNavigate()
+  const navigate = useNavigate();
+
   const producto = listaProductos.find(p => p.id === parseInt(id));
 
-  const [imagen, setImagen] = useState(producto.image);
-  const [nombre, setNombre] = useState(producto.title);
-  const [precio, setPrecio] = useState(producto.price);
-  const [descripcion, setDescripcion] = useState(producto.description);
-  const [categoria, setCategoria] = useState(producto.category);
-  const [stock, setStock] = useState(producto.rating.count);
+  const [imagen, setImagen] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [precio, setPrecio] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [stock, setStock] = useState('');
 
   useEffect(() => {
     if (producto) {
@@ -27,43 +28,56 @@ const Editar = ({ listaProductos , setListaProductos}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const productoEditado={
-        id: parseInt(id),
-        image: imagen,
-        title: nombre,
-        price: precio,
-        description: descripcion,
-        category: categoria,
-        rating:{
-            count: stock,
-            rate: 0, 
-        }
-    }
-    let nuevoarray=listaProductos.map(e => e.id==parseInt(id) ? productoEditado : e)
-    setListaProductos(nuevoarray)
-    navigate('/')
+    const productoEditado = {
+      id: parseInt(id),
+      image: imagen,
+      title: nombre,
+      price: precio,
+      description: descripcion,
+      category: categoria,
+      rating: {
+        count: stock,
+        rate: 0,
+      },
+    };
+    const nuevoArray = listaProductos.map(e => (e.id === parseInt(id) ? productoEditado : e));
+    setListaProductos(nuevoArray);
+    navigate('/');
+  };
+
+  const backgroundStyle = {
+    backgroundColor: '#12121a',
+    minHeight: '100vh',
+    color: '#cccccc',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2rem',
+  };
+
+  const contentStyle = {
+    padding: '2.5rem 3rem',
+    borderRadius: '15px',
+    border: '2px solid #00e0c0',
+    maxWidth: '600px',
+    width: '100%',
   };
 
   const inputStyle = {
-    backgroundColor: '#1c1c28',
-    border: '1px solid #333',
-    color: '#cccccc'
+    backgroundColor: '#1e1e2a',
+    borderColor: '#00ffe770',
+    color: '#ffffff',
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
-      <Card style={{
-        backgroundColor: '#12121a',
-        padding: '2rem',
-        width: '100%',
-        maxWidth: '600px',
-        border: '2px solid #00ffe770',
-        color: '#cccccc'
-      }}>
-        <h2 style={{ color: '#00e0c0', textAlign: 'center', marginBottom: '1.5rem' }}>Editar Producto</h2>
+    <div style={backgroundStyle}>
+      <Container style={contentStyle}>
+        <h2 style={{ color: '#00e0c0', textAlign: 'center', marginBottom: '1.5rem' }}>
+          Editar Producto
+        </h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formId">
-            <Form.Label style={{ color: '#cccccc' }}>ID</Form.Label>
+            <Form.Label>ID</Form.Label>
             <Form.Control
               type="text"
               disabled
@@ -133,12 +147,16 @@ const Editar = ({ listaProductos , setListaProductos}) => {
             />
           </Form.Group>
 
-          <Button type="submit" variant="outline-info" style={{ borderColor: '#00e0c0', color: '#00e0c0' }}>
+          <Button
+            type="submit"
+            variant="outline-info"
+            style={{ borderColor: '#00e0c0', color: '#00e0c0', width: '100%' }}
+          >
             Guardar Cambios
           </Button>
         </Form>
-      </Card>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 
-const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProducto}) => {
+const CrearProducto = ({ setListaProductos, listaProductos, idProducto, setIdProducto }) => {
   const [imagen, setImagen] = useState('');
   const [nombre, setNombre] = useState('');
   const [precio, setPrecio] = useState('');
@@ -11,51 +11,59 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nuevoProducto={
+    const nuevoProducto = {
       id: idProducto,
       image: imagen,
       price: precio,
       description: descripcion,
       category: categoria,
-      rating:{
+      rating: {
         rates: 0,
         count: stock,
-      }
-    }
-    setListaProductos([...listaProductos, nuevoProducto])
-    setIdProducto(idProducto+1)
+      },
+    };
+    setListaProductos([...listaProductos, nuevoProducto]);
+    setIdProducto(idProducto + 1);
+  };
+
+  const backgroundStyle = {
+    backgroundColor: '#12121a',
+    minHeight: '100vh',
+    color: '#cccccc',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2rem',
+  };
+
+  const contentStyle = {
+    padding: '2.5rem 3rem',
+    borderRadius: '15px',
+    border: '2px solid #00e0c0',
+    maxWidth: '600px',
+    width: '100%',
   };
 
   const inputStyle = {
     backgroundColor: '#1e1e2a',
     borderColor: '#00ffe770',
-    color: '#ffffff'
+    color: '#ffffff',
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
-      <Card style={{
-        backgroundColor: '#12121a',
-        padding: '2rem',
-        width: '100%',
-        maxWidth: '600px',
-        border: '2px solid #00ffe770',
-        color: '#cccccc'
-      }}>
-        <h2 style={{ color: '#00e0c0', textAlign: 'center', marginBottom: '1.5rem' }}>Crear Producto</h2>
+    <div style={backgroundStyle}>
+      <Container style={contentStyle}>
+        <h2 style={{ color: '#00e0c0', textAlign: 'center', marginBottom: '1.5rem' }}>
+          Crear Producto
+        </h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formId">
-            <Form.Label style={{ color: '#cccccc' }}>ID</Form.Label>
-            <Form.Control
-              type="text"
-              disabled
-              value={idProducto}
-              style={inputStyle}
-            />
+            <Form.Label>ID</Form.Label>
+            <Form.Control type="text" disabled value={idProducto} style={inputStyle} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formImagen">
-            <Form.Label style={{ color: '#cccccc' }}>Imagen representativa (URL)</Form.Label>
+            <Form.Label>Imagen representativa (URL)</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese la URL de la imagen"
@@ -66,7 +74,7 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formNombre">
-            <Form.Label style={{ color: '#cccccc' }}>Nombre</Form.Label>
+            <Form.Label>Nombre</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese el nombre"
@@ -77,7 +85,7 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formPrecio">
-            <Form.Label style={{ color: '#cccccc' }}>Precio</Form.Label>
+            <Form.Label>Precio</Form.Label>
             <Form.Control
               type="number"
               placeholder="Ingrese el precio"
@@ -88,7 +96,7 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formDescripcion">
-            <Form.Label style={{ color: '#cccccc' }}>Descripción</Form.Label>
+            <Form.Label>Descripción</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -99,8 +107,8 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
             />
           </Form.Group>
 
-          <Form.Group className="mb-4" controlId="formCategoria">
-            <Form.Label style={{ color: '#cccccc' }}>Categoría</Form.Label>
+          <Form.Group className="mb-3" controlId="formCategoria">
+            <Form.Label>Categoría</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese la categoría"
@@ -109,9 +117,9 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
               style={inputStyle}
             />
           </Form.Group>
-          
+
           <Form.Group className="mb-4" controlId="formStock">
-            <Form.Label style={{ color: '#cccccc' }}>Stock</Form.Label>
+            <Form.Label>Stock</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese Stock"
@@ -121,12 +129,16 @@ const CrearProducto = ({setListaProductos, listaProductos,idProducto, setIdProdu
             />
           </Form.Group>
 
-          <Button type="submit" variant="outline-info" style={{ borderColor: '#00e0c0', color: '#00e0c0' }}>
+          <Button
+            type="submit"
+            variant="outline-info"
+            style={{ borderColor: '#00e0c0', color: '#00e0c0', width: '100%' }}
+          >
             Crear
           </Button>
         </Form>
-      </Card>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

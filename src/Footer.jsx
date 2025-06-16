@@ -10,10 +10,7 @@ const Footer = () => {
         textAlign: 'center',
         borderTop: '2px solid #00e0c0',
         fontSize: '0.9rem',
-        position: 'fixed',
-        bottom: 0,
-        width: '100%',
-        zIndex: 999,
+        marginTop: 'auto',
       }}
     >
       <Container>

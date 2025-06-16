@@ -1,23 +1,17 @@
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 const ProductDetail = ({ listaProductos }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [favorito, setFavorito] = useState(false);
 
   const producto = listaProductos.find(e => e.id == id);
-
-  const toggleFavorito = () => {
-    setFavorito(!favorito);
-  };
 
   if (!producto) {
     return (
       <Container className="py-5 text-center">
         <h4>Producto no encontrado</h4>
-        <Button variant="secondary" onClick={() => navigate(-1)}>Volver</Button>
+        <Button variant="primary" onClick={() => navigate(-1)}>Volver</Button>
       </Container>
     );
   }
@@ -25,20 +19,9 @@ const ProductDetail = ({ listaProductos }) => {
   return (
     <Container className="py-5">
       <Card
-        className="mx-auto shadow-sm position-relative"
+        className="mx-auto shadow-sm"
         style={{ maxWidth: '900px', borderRadius: '15px' }}
       >
-        <Button
-          variant="light"
-          onClick={toggleFavorito}
-          className="position-absolute top-0 end-0 m-3 rounded-circle p-2 shadow-sm"
-        >
-          <i
-            className={`bi ${favorito ? 'bi-star-fill' : 'bi-star'} text-warning`}
-            style={{ fontSize: '1.2rem' }}
-          ></i>
-        </Button>
-
         <Row className="g-0">
           <Col md={5} className="d-flex align-items-center p-3">
             <Card.Img
@@ -58,6 +41,7 @@ const ProductDetail = ({ listaProductos }) => {
 
               <div style={{ fontSize: '1rem', marginBottom: '1rem' }}>
                 <p><strong>Categoría:</strong> {producto.category}</p>
+
                 <p><strong>Stock:</strong> {producto.rating.count ?? 'N/A'}</p> 
                 <p><strong>Precio:</strong> <span style={{ color: '#198754', fontWeight: '700' }}>${producto.price}</span></p>
               </div>
@@ -66,7 +50,7 @@ const ProductDetail = ({ listaProductos }) => {
                 onClick={() => navigate(-1)}
                 style={{ alignSelf: 'flex-start', borderRadius: '30px', padding: '0.5rem 2rem' }}
               >
-                Volver
+                 Volver
               </Button>
             </Card.Body>
           </Col>
