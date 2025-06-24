@@ -10,6 +10,8 @@ import DetalleProducto from './DetalleProducto';
 import Editar from './Editar';
 import Favoritos from './Favoritos'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Registro from "./Registro"
+import IniciarSesion from "./IniciarSesion"
 function App() {
 
   const [listaProductos, setListaProductos] = useState([]);
@@ -31,6 +33,8 @@ function App() {
             <Route path="/favoritos" element={<Favoritos listaProductos={listaProductos}/>}></Route>
             <Route path="/editar/:id" element={<Editar listaProductos={listaProductos} setListaProductos={setListaProductos}/>} />
             <Route exact path="/*" element={<Error404/>}></Route>
+            <Route exact path="/crearUsuario" element={<Registro/>}></Route>
+            <Route exact path="/iniciarSesion" element={<IniciarSesion/>}></Route>
         </Routes>
       <Footer/>
     </BrowserRouter>

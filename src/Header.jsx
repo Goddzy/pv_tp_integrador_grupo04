@@ -38,6 +38,20 @@ const Header = () => {
             </Nav.Link>
             <Nav.Link
               as={Link}
+              to="/iniciarSesion"
+              style={{ color: '#cccccc', fontWeight: 500 }}
+            >
+              Iniciar Sesión
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/crearUsuario"
+              style={{ color: '#cccccc', fontWeight: 500 }}
+            >
+              Registrarse
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
               to="/favoritos"
               style={{ color: '#cccccc', fontWeight: 500 }}
             >
