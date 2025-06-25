@@ -12,16 +12,32 @@ import Favoritos from './Favoritos'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Registro from "./Registro"
 import IniciarSesion from "./IniciarSesion"
+
+import adminUsers from "./admin.json";
+
 function App() {
 
   const [listaProductos, setListaProductos] = useState([]);
    const [idProducto, setIdProducto] = useState(21);
+
+
   useEffect(()=>{
     fetch('https://fakestoreapi.com/products')
     .then(res => res.json())
     .then(res => setListaProductos(res))
     .catch(err => console.log('Error al cargar los productos: ', err));
   },[])
+
+  useEffect(() => {
+    const usuariosExistentes = JSON.parse(localStorage.getItem("users")) || [];
+    const yaExisteAdmin = usuariosExistentes.some(u => u.email === "admin@admin.com");
+
+    if (!yaExisteAdmin) {
+      const nuevosUsuarios = [...usuariosExistentes, ...adminUsers];
+      localStorage.setItem("users", JSON.stringify(nuevosUsuarios));
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Header/>

@@ -1,7 +1,14 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from './contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <Navbar
       expand="lg"
@@ -36,6 +43,8 @@ const Header = () => {
             >
               Inicio
             </Nav.Link>
+
+            {user ? null : 
             <Nav.Link
               as={Link}
               to="/iniciarSesion"
@@ -43,6 +52,9 @@ const Header = () => {
             >
               Iniciar Sesión
             </Nav.Link>
+            }
+            
+            {user ? null :
             <Nav.Link
               as={Link}
               to="/crearUsuario"
@@ -50,6 +62,9 @@ const Header = () => {
             >
               Registrarse
             </Nav.Link>
+            }
+            
+            {user && !user.administrador ?
             <Nav.Link
               as={Link}
               to="/favoritos"
@@ -57,13 +72,23 @@ const Header = () => {
             >
               Favoritos
             </Nav.Link>
-            <Nav.Link
+            :
+            null
+            }
+
+            {user && user.administrador ? 
+            
+              <Nav.Link
               as={Link}
               to="/crearProducto"
               style={{ color: '#cccccc', fontWeight: 500 }}
             >
               Crear Producto
             </Nav.Link>
+            :
+             null
+             }
+            
             <Nav.Link
               as={Link}
               to="/aboutUs"
@@ -71,6 +96,24 @@ const Header = () => {
             >
               Contacto
             </Nav.Link>
+
+             {user ?
+            <Nav.Link
+              onClick={() => {
+                logout();
+                alert("Sesión cerrada correctamente.");
+                navigate('/');
+              }}
+              style={{ color: '#cccccc', fontWeight: 500 }}
+            >
+              Cerrar Sesión
+            </Nav.Link>
+            :
+            null
+            }
+
+
+
           </Nav>
         </Navbar.Collapse>
       </Container>

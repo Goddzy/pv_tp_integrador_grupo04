@@ -1,12 +1,19 @@
 import { Box, Container, Paper, Typography, TextField, Grid, Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from './contexts/AuthContext'; // o la ruta correcta según tu proyecto
+
 
 const IniciarSesion = () => {
+
+  const { login } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
+
+
   const handleSubmit = (e) =>{
     e.preventDefault();
 
@@ -29,7 +36,8 @@ const IniciarSesion = () => {
      }
 
 
-     localStorage.setItem("sessionUser", JSON.stringify(usuarioLogeado));
+     localStorage.setItem("sessionUser", JSON.stringify(usuarioLogeado)); //guardar en local Storage
+     login(usuarioLogeado) //guardar en el contexto 
      alert('Se inició sesión correctamente')
      navigate('/');
     }
