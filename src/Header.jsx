@@ -64,7 +64,7 @@ const Header = () => {
             </Nav.Link>
             }
             
-            {user && !user.administrador ?
+            {user ?
             <Nav.Link
               as={Link}
               to="/favoritos"
@@ -102,7 +102,7 @@ const Header = () => {
               onClick={() => {
                 logout();
                 alert("Sesión cerrada correctamente.");
-                navigate('/');
+                navigate('/iniciarSesion');
               }}
               style={{ color: '#cccccc', fontWeight: 500 }}
             >

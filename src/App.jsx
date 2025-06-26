@@ -12,7 +12,8 @@ import Favoritos from './Favoritos'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Registro from "./Registro"
 import IniciarSesion from "./IniciarSesion"
-
+import AdminRoute from "./routes/AdminRoutes"
+import PrivateRoute from "./routes/PrivateRoutes"
 import adminUsers from "./admin.json";
 
 function App() {
@@ -43,11 +44,23 @@ function App() {
       <Header/>
         <Routes>
             <Route exact path="/" element={<Home listaProductos={listaProductos}/>}></Route>
-            <Route exact path="/crearProducto" element={<CrearProducto setListaProductos={setListaProductos} listaProductos={listaProductos} idProducto={idProducto} setIdProducto={setIdProducto}/>}></Route>
+            <Route exact path="/crearProducto" element={
+              <AdminRoute>
+                <CrearProducto setListaProductos={setListaProductos} listaProductos={listaProductos} idProducto={idProducto} setIdProducto={setIdProducto}/>
+              </AdminRoute>
+              }></Route>
             <Route path="/aboutUs" element={<Contacto />} ></Route>
             <Route path="/producto/:id" element={<DetalleProducto listaProductos={listaProductos} />} />
-            <Route path="/favoritos" element={<Favoritos listaProductos={listaProductos}/>}></Route>
-            <Route path="/editar/:id" element={<Editar listaProductos={listaProductos} setListaProductos={setListaProductos}/>} />
+            <Route path="/favoritos" element={
+              <PrivateRoute>
+                <Favoritos listaProductos={listaProductos}/>
+              </PrivateRoute>
+              }></Route>
+            <Route path="/editar/:id" element={
+              <AdminRoute>
+                <Editar listaProductos={listaProductos} setListaProductos={setListaProductos}/>
+              </AdminRoute>
+              } />
             <Route exact path="/*" element={<Error404/>}></Route>
             <Route exact path="/crearUsuario" element={<Registro/>}></Route>
             <Route exact path="/iniciarSesion" element={<IniciarSesion/>}></Route>

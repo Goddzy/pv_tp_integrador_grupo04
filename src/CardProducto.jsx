@@ -1,14 +1,14 @@
 import { Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-
+import { AuthContext } from "./contexts/AuthContext";
 import { FavoritosContext } from "./contexts/FavoritosContext";
 
 
 const CardProducto = ({ producto }) => {
 
   const {favoritos, toggleFavorito } = useContext(FavoritosContext);
-
+  const {user} = useContext(AuthContext);
   const esFavorito = favoritos.includes(producto.id);
   
 
@@ -26,12 +26,12 @@ const CardProducto = ({ producto }) => {
       >
         <Button
           variant="light"
-          onClick={() => toggleFavorito(producto.id)}
+          onClick={() => {user ? toggleFavorito(producto.id) : alert("Debe registrarse para guardar favoritos") }}
           className="position-absolute top-0 end-0 m-2 rounded-circle p-2 shadow-sm"
           style={{ zIndex: 1 }}
         >
           <i
-            className={`bi ${esFavorito ? 'bi-star-fill' : 'bi-star'} text-warning`}
+            className={`bi ${user && esFavorito ? 'bi-star-fill text-warning' : 'bi-star text-secondary'}`}
             style={{ fontSize: '1.2rem' }}
           ></i>
         </Button>
@@ -71,7 +71,7 @@ const CardProducto = ({ producto }) => {
             <span className="fw-bold me-auto" style={{ color: '#ffffff' }}>
               ${producto.price}
             </span>
-            <Button
+            {user && user.administrador ? <Button
               variant="warning"
               as={Link}
               to={`/editar/${producto.id}`}
@@ -79,7 +79,7 @@ const CardProducto = ({ producto }) => {
               style={{ boxShadow: 'none' }}
             >
               Editar
-            </Button>
+            </Button> : null}
             <Button
               variant="primary"
               as={Link}
