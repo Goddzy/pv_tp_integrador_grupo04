@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  // Funciona como un initialState
   useEffect(()=>{
 
     const usuarioGuardado = localStorage.getItem("sessionUser");

@@ -38,7 +38,7 @@ const IniciarSesion = () => {
 
      localStorage.setItem("sessionUser", JSON.stringify(usuarioLogeado)); //guardar en local Storage
      login(usuarioLogeado) //guardar en el contexto 
-     alert('Se inició sesión correctamente')
+     alert("Bienvenido " + usuarioLogeado.nombre)
      navigate('/');
     }
 

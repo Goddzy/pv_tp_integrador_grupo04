@@ -36,6 +36,24 @@ const Header = () => {
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto">
+            <Nav className="mx-auto">
+          </Nav>
+           <Nav className="ms-auto">
+            {user ? (
+              <span
+                className="navbar-text"
+                style={{
+                  color: '#cccccc',
+                  fontWeight: 500,
+                  fontSize: '1rem',
+                  marginRight: '0.5rem'
+                }}
+              >
+                Bienvenido, {user.email}
+              </span>
+            ) : null 
+            }
+          </Nav>
             <Nav.Link
               as={Link}
               to="/"
@@ -111,10 +129,11 @@ const Header = () => {
             :
             null
             }
-
+            
 
 
           </Nav>
+          
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -22,7 +22,6 @@ const Registro = () => {
         password: password,
         confirmar: confirmar,
         administrador: false,
-        favoritos: [],
     }
 
     const cuentasActualizadas = [...cuentas, cuentaNueva];
