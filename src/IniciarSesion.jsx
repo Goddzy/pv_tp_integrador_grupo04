@@ -1,49 +1,60 @@
 import { Box, Container, Paper, Typography, TextField, Grid, Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from './contexts/AuthContext'; // o la ruta correcta según tu proyecto
-
+import { AuthContext } from './contexts/AuthContext';
 
 const IniciarSesion = () => {
-
   const { login } = useContext(AuthContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    //validar los campos
-
-    const cuentaUsuarios = JSON.parse(localStorage.getItem("users")) || [];
-    if(cuentaUsuarios.length > 0){
-        const usuarioExistente = cuentaUsuarios.find(e => e.email == email && e.password == password);
-        
-        if(!usuarioExistente){
-          alert('Credenciales inválidas')
-          return;
-        }
-    
-     const usuarioLogeado = {
-        administrador: usuarioExistente.administrador,
-        email: usuarioExistente.email,
-        favoritos: usuarioExistente.favoritos,
-        nombre: usuarioExistente.nombre
-     }
-
-
-     localStorage.setItem("sessionUser", JSON.stringify(usuarioLogeado)); //guardar en local Storage
-     login(usuarioLogeado) //guardar en el contexto 
-     alert("Bienvenido " + usuarioLogeado.nombre)
-     navigate('/');
+    // VALIDACIÓN BÁSICA
+    const newErr = {};
+    const emailTrim = email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailTrim) {
+      newErr.email = "El correo es obligatorio";
+    } else if (!emailRegex.test(emailTrim)) {
+      newErr.email = "Formato de correo inválido";
+    }
+    if (!password) {
+      newErr.password = "La contraseña es obligatoria";
+    }
+    if (Object.keys(newErr).length) {
+      setErrors(newErr);
+      // Alert con todos los mensajes de error
+      alert(Object.values(newErr).join("\n"));
+      return;
     }
 
+    // CHEQUEO DE CREDENCIALES
+    const cuentaUsuarios = JSON.parse(localStorage.getItem("users")) || [];
+    const usuarioExistente = cuentaUsuarios.find(
+      (u) => u.email === emailTrim && u.password === password
+    );
+    if (!usuarioExistente) {
+      setErrors({ general: "Credenciales inválidas" });
+      alert("Credenciales inválidas");
+      return;
+    }
 
-  }
+    const usuarioLogeado = {
+      administrador: usuarioExistente.administrador,
+      email: usuarioExistente.email,
+      favoritos: usuarioExistente.favoritos,
+      nombre: usuarioExistente.nombre,
+    };
+
+    localStorage.setItem("sessionUser", JSON.stringify(usuarioLogeado));
+    login(usuarioLogeado);
+    alert("Bienvenido " + usuarioLogeado.nombre);
+    navigate("/");
+  };
 
   return (
     <Box
@@ -72,12 +83,25 @@ const IniciarSesion = () => {
 
           <form onSubmit={handleSubmit}>
             <Grid container direction="column" spacing={2}>
+              {errors.general && (
+                <Grid item>
+                  <Typography color="error" align="center">
+                    {errors.general}
+                  </Typography>
+                </Grid>
+              )}
+
               <Grid item>
                 <TextField
                   label="Correo electrónico"
                   fullWidth
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setErrors({ ...errors, email: null, general: null });
+                  }}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
                   InputProps={{ sx: { backgroundColor: "#12121a", color: "#ffffff" } }}
                   InputLabelProps={{ sx: { color: "#cccccc" } }}
                 />
@@ -88,7 +112,12 @@ const IniciarSesion = () => {
                   type="password"
                   fullWidth
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setErrors({ ...errors, password: null, general: null });
+                  }}
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
                   InputProps={{ sx: { backgroundColor: "#12121a", color: "#ffffff" } }}
                   InputLabelProps={{ sx: { color: "#cccccc" } }}
                 />
