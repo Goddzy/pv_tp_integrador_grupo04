@@ -79,7 +79,7 @@ const Contacto = () => {
               <Card.Body>
                 <Card.Title style={{ color: '#00e0c0' }}>Cari Enrique Gustavo</Card.Title>
                 <Card.Text>
-                  DNI: --.--.-- <br></br>
+                  DNI: 36.350.826 <br></br>
                   LU: APU00---- 
                 </Card.Text>
               </Card.Body>

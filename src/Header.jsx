@@ -49,7 +49,7 @@ const Header = () => {
                   marginRight: '0.5rem'
                 }}
               >
-                Bienvenido, {user.email}
+                Bienvenido, {user.nombre}
               </span>
             ) : null 
             }

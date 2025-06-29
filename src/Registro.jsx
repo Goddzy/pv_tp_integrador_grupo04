@@ -32,11 +32,13 @@ const Registro = () => {
       nuevosErrores.email = "Este correo ya está registrado";
     }
 
-    // Password: longitud mínima
-    if (password.length < 6) {
-      nuevosErrores.password = "La contraseña debe tener al menos 6 caracteres";
-    }
-
+       // Password: longitud mínima, minus y mayúscula
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+  if (!passwordRegex.test(password)) {
+    nuevosErrores.password =
+      "La contraseña debe tener mínimo 6 caracteres, y al menos una minúscula y una mayúscula";
+  }
+   
     // Confirmar password
     if (confirmar !== password) {
       nuevosErrores.confirmar = "Las contraseñas no coinciden";
