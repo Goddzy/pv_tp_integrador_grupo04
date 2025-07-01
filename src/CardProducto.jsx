@@ -4,87 +4,124 @@ import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { FavoritosContext } from "./contexts/FavoritosContext";
 
-
-const CardProducto = ({ producto }) => {
-
-  const {favoritos, toggleFavorito } = useContext(FavoritosContext);
-  const {user} = useContext(AuthContext);
+const CardProducto = ({ producto, onDeleted }) => {
+  const { favoritos, toggleFavorito } = useContext(FavoritosContext);
+  const { user } = useContext(AuthContext);
   const esFavorito = favoritos.includes(producto.id);
-  
+
+  // 1. Lógica para eliminar
+  const handleEliminar = async (id) => {
+    const ok = window.confirm("¿Seguro que quieres eliminar este producto?");
+    if (!ok) return;
+
+    try {
+      const res = await fetch(`/api/productos/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Error al eliminar");
+      onDeleted && onDeleted(id);
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo eliminar el producto.");
+    }
+  };
 
   return (
     <Col xs={12} sm={6} md={4} className="mb-4 d-flex">
       <Card
         className="h-100 d-flex flex-column position-relative"
         style={{
-          borderRadius: '10px',
-          border: '1px solid #444', 
-          backgroundColor: '#12121a',
-          color: '#ffffff',
-          boxShadow: 'none',
+          borderRadius: "10px",
+          border: "1px solid #444",
+          backgroundColor: "#12121a",
+          color: "#ffffff",
+          boxShadow: "none",
         }}
       >
+        {/* Favorito */}
         <Button
           variant="light"
-          onClick={() => {user ? toggleFavorito(producto.id) : alert("Debe registrarse para guardar favoritos") }}
+          onClick={() =>
+            user
+              ? toggleFavorito(producto.id)
+              : alert("Debe registrarse para guardar favoritos")
+          }
           className="position-absolute top-0 end-0 m-2 rounded-circle p-2 shadow-sm"
           style={{ zIndex: 1 }}
         >
           <i
-            className={`bi ${user && esFavorito ? 'bi-star-fill text-warning' : 'bi-star text-secondary'}`}
-            style={{ fontSize: '1.2rem' }}
-          ></i>
+            className={`bi ${
+              user && esFavorito ? "bi-star-fill text-warning" : "bi-star text-secondary"
+            }`}
+            style={{ fontSize: "1.2rem" }}
+          />
         </Button>
 
+        {/* Imagen */}
         <Card.Img
           variant="top"
           src={producto.image}
           style={{
-            height: '200px',
-            objectFit: 'contain',
-            backgroundColor: 'transparent', 
-            padding: 0,
-            margin: 0,
+            height: "200px",
+            objectFit: "contain",
+            backgroundColor: "transparent",
           }}
         />
-        <Card.Body className="d-flex flex-column" style={{ padding: '1rem' }}>
+
+        {/* Contenido */}
+        <Card.Body className="d-flex flex-column" style={{ padding: "1rem" }}>
           <Card.Title
             className="fs-6 text-truncate"
             title={producto.title}
-            style={{ color: '#ffffff' }}
+            style={{ color: "#ffffff" }}
           >
             {producto.title}
           </Card.Title>
           <Card.Text
             className="flex-grow-1"
             style={{
-              fontSize: '0.9rem',
-              maxHeight: '4.5rem',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              color: '#ffffff', 
+              fontSize: "0.9rem",
+              maxHeight: "4.5rem",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              color: "#ffffff",
             }}
           >
             {producto.description}
           </Card.Text>
+
+          {/* Botones de acción */}
           <div className="d-flex align-items-center mt-2">
-            <span className="fw-bold me-auto" style={{ color: '#ffffff' }}>
+            <span className="fw-bold me-auto" style={{ color: "#ffffff" }}>
               ${producto.price}
             </span>
-            {user && user.administrador ? <Button
-              variant="warning"
-              as={Link}
-              to={`/editar/${producto.id}`}
-              className="me-2"
-              style={{ boxShadow: 'none' }}
-            >
-              Editar
-            </Button> : null}
+
+            {user?.administrador && (
+              <>
+                <Button
+                  variant="warning"
+                  as={Link}
+                  to={`/editar/${producto.id}`}
+                  className="me-2"
+                  style={{ boxShadow: "none" }}
+                >
+                  Editar
+                </Button>
+
+                <Button
+                  variant="danger"
+                  onClick={() => handleEliminar(producto.id)}
+                  className="me-2"
+                  style={{ boxShadow: "none" }}
+                >
+                  Eliminar
+                </Button>
+              </>
+            )}
+
             <Button
               variant="primary"
               as={Link}
               to={`/producto/${producto.id}`}
-              style={{ boxShadow: 'none' }}
+              style={{ boxShadow: "none" }}
             >
               Ver más
             </Button>
