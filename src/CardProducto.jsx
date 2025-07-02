@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { FavoritosContext } from "./contexts/FavoritosContext";
+import { EliminadosContext } from "./contexts/EliminadosContext";
 
-const CardProducto = ({ producto, eliminarProducto }) => {
+const CardProducto = ({ producto, eliminarProducto, restaurarProducto }) => {
   const { favoritos, toggleFavorito } = useContext(FavoritosContext);
   const { user } = useContext(AuthContext);
+  const { eliminados } = useContext(EliminadosContext);
   const esFavorito = favoritos.includes(producto.id);
 
   return (
@@ -87,6 +89,17 @@ const CardProducto = ({ producto, eliminarProducto }) => {
                   Editar
                 </Button>
 
+              {
+               eliminados.some((e) => e.id === producto.id) ? 
+                <Button
+                  variant="danger"
+                  onClick={() => restaurarProducto(producto.id)}
+                  className="me-2"
+                  style={{ boxShadow: "none" }}
+                >
+                  Restaurar
+                </Button> 
+                :
                 <Button
                   variant="danger"
                   onClick={() => eliminarProducto(producto.id)}
@@ -94,7 +107,9 @@ const CardProducto = ({ producto, eliminarProducto }) => {
                   style={{ boxShadow: "none" }}
                 >
                   Eliminar
-                </Button>
+                </Button> 
+                 
+              }
               </>
              : null }
 

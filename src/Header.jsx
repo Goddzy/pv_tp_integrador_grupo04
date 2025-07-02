@@ -93,6 +93,17 @@ const Header = () => {
             :
             null
             }
+             {user && user.administrador ?
+            <Nav.Link
+              as={Link}
+              to="/eliminados"
+              style={{ color: '#cccccc', fontWeight: 500 }}
+            >
+              Productos Eliminados
+            </Nav.Link>
+            :
+            null
+            }
 
             {user && user.administrador ? 
             

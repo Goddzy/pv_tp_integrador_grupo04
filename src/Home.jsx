@@ -3,8 +3,11 @@ import CardProducto from './CardProducto';
 import { useContext } from 'react';
 import { FavoritosContext } from './contexts/FavoritosContext';
 import { useNavigate } from 'react-router-dom';
+import { EliminadosContext } from './contexts/EliminadosContext';
+
 const Home = ({ listaProductos, setListaProductos }) => {
   const { toggleFavorito, favoritos  } = useContext(FavoritosContext);
+  const { setEliminados, eliminados  } = useContext(EliminadosContext);
   const navigate=useNavigate();
 
   const eliminarProducto = (id) => {
@@ -12,11 +15,14 @@ const Home = ({ listaProductos, setListaProductos }) => {
       if (ok){
         if(favoritos.includes(id))
           toggleFavorito(id)
+        const prodEliminado = listaProductos.find(e => e.id === id)
+        setEliminados([...eliminados, prodEliminado])
         const prodMod=listaProductos.filter(e => e.id !== id)
         setListaProductos(prodMod);
-      }else 
+      }else{
           navigate("/");
           return;
+      }
     };
 
   return (
@@ -49,7 +55,7 @@ const Home = ({ listaProductos, setListaProductos }) => {
         <hr style={{ borderColor: '#00e0c0', borderWidth: '2px', width: '80px' }} />
         <Row className="mt-4">
           {listaProductos.map((e) => (
-            <CardProducto key={e.id} producto={e} eliminarProducto={eliminarProducto} />
+            <CardProducto key={e.id} producto={e} eliminarProducto={eliminarProducto}/>
           ))}
         </Row>
       </Container>

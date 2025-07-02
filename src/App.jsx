@@ -15,6 +15,7 @@ import IniciarSesion from "./IniciarSesion"
 import AdminRoute from "./routes/AdminRoutes"
 import PrivateRoute from "./routes/PrivateRoutes"
 import adminUsers from "./admin.json";
+import Eliminados from "./Eliminados";
 
 function App() {
 
@@ -54,6 +55,11 @@ function App() {
             <Route path="/favoritos" element={
               <PrivateRoute>
                 <Favoritos listaProductos={listaProductos}/>
+              </PrivateRoute>
+              }></Route>
+               <Route path="/eliminados" element={
+              <PrivateRoute>
+                <Eliminados listaProductos={listaProductos} setListaProductos={setListaProductos} />
               </PrivateRoute>
               }></Route>
             <Route path="/editar/:id" element={
