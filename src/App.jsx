@@ -43,7 +43,7 @@ function App() {
     <BrowserRouter>
       <Header/>
         <Routes>
-            <Route exact path="/" element={<Home listaProductos={listaProductos}/>}></Route>
+            <Route exact path="/" element={<Home listaProductos={listaProductos} setListaProductos={setListaProductos}/>}></Route>
             <Route exact path="/crearProducto" element={
               <AdminRoute>
                 <CrearProducto setListaProductos={setListaProductos} listaProductos={listaProductos} idProducto={idProducto} setIdProducto={setIdProducto}/>

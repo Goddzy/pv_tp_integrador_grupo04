@@ -1,28 +1,13 @@
 import { Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { FavoritosContext } from "./contexts/FavoritosContext";
 
-const CardProducto = ({ producto, onDeleted }) => {
+const CardProducto = ({ producto, eliminarProducto }) => {
   const { favoritos, toggleFavorito } = useContext(FavoritosContext);
   const { user } = useContext(AuthContext);
   const esFavorito = favoritos.includes(producto.id);
-
-  // 1. Lógica para eliminar
-  const handleEliminar = async (id) => {
-    const ok = window.confirm("¿Seguro que quieres eliminar este producto?");
-    if (!ok) return;
-
-    try {
-      const res = await fetch(`/api/productos/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Error al eliminar");
-      onDeleted && onDeleted(id);
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo eliminar el producto.");
-    }
-  };
 
   return (
     <Col xs={12} sm={6} md={4} className="mb-4 d-flex">
@@ -36,7 +21,6 @@ const CardProducto = ({ producto, onDeleted }) => {
           boxShadow: "none",
         }}
       >
-        {/* Favorito */}
         <Button
           variant="light"
           onClick={() =>
@@ -55,7 +39,6 @@ const CardProducto = ({ producto, onDeleted }) => {
           />
         </Button>
 
-        {/* Imagen */}
         <Card.Img
           variant="top"
           src={producto.image}
@@ -66,7 +49,6 @@ const CardProducto = ({ producto, onDeleted }) => {
           }}
         />
 
-        {/* Contenido */}
         <Card.Body className="d-flex flex-column" style={{ padding: "1rem" }}>
           <Card.Title
             className="fs-6 text-truncate"
@@ -88,13 +70,12 @@ const CardProducto = ({ producto, onDeleted }) => {
             {producto.description}
           </Card.Text>
 
-          {/* Botones de acción */}
           <div className="d-flex align-items-center mt-2">
             <span className="fw-bold me-auto" style={{ color: "#ffffff" }}>
               ${producto.price}
             </span>
 
-            {user?.administrador && (
+            { user && user.administrador ?
               <>
                 <Button
                   variant="warning"
@@ -108,14 +89,14 @@ const CardProducto = ({ producto, onDeleted }) => {
 
                 <Button
                   variant="danger"
-                  onClick={() => handleEliminar(producto.id)}
+                  onClick={() => eliminarProducto(producto.id)}
                   className="me-2"
                   style={{ boxShadow: "none" }}
                 >
                   Eliminar
                 </Button>
               </>
-            )}
+             : null }
 
             <Button
               variant="primary"
